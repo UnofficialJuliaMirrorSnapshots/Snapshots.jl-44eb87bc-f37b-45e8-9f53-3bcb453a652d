@@ -13,6 +13,8 @@ import HTTP
 import Pkg
 import TimeZones
 
+import ..delayederror
+
 function _toml_file_to_package(
         packagetoml_file_filename::String,
         )::Types.Package
@@ -310,6 +312,14 @@ function _snapshot_repo!!(
                 Utils.git_commit!(
                     ;
                     message = commit_message,
+                    committer_name = git_user_name,
+                    committer_email = git_user_email,
+                    allow_empty = false,
+                    )
+                Utils.git_add_all!()
+                Utils.git_commit!(
+                    ;
+                    message = "Snapshot commit",
                     committer_name = git_user_name,
                     committer_email = git_user_email,
                     allow_empty = false,
